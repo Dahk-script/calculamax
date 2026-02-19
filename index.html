@@ -1,0 +1,46 @@
+<div id="calculamax-app" style="font-family: 'Segoe UI', sans-serif; max-width: 400px; margin: auto; background: #000; padding: 20px; border-radius: 25px; border: 1px solid #333; color: white; box-shadow: 0 15px 50px rgba(0,0,0,0.9);">
+  
+  <h2 style="text-align: center; margin-bottom: 25px; letter-spacing: 1px;">CalculaMax Pro 🚀</h2>
+
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 20px;">
+    <button onclick="aba('S', this)" id="btS" class="btn-menu active-neon">Simples</button>
+    <button onclick="aba('F', this)" id="btF" class="btn-menu">Frações</button>
+    <button onclick="aba('R', this)" id="btR" class="btn-menu">Raiz</button>
+    <button onclick="aba('M', this)" id="btM" class="btn-menu">MMC</button>
+  </div>
+
+  <div style="background: #111; padding: 20px; border-radius: 15px; border: 1px solid #222; min-height: 420px;">
+    
+    <div id="pnlS">
+        <input type="number" id="s1" placeholder="Número 1" class="main-input">
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 8px; margin: 20px 0;">
+            <button onclick="setOp(this, '+')" class="btn-op selected-op">+</button>
+            <button onclick="setOp(this, '-')" class="btn-op">-</button>
+            <button onclick="setOp(this, '×')" class="btn-op">×</button>
+            <button onclick="setOp(this, '÷')" class="btn-op">÷</button>
+        </div>
+        <input type="hidden" id="opS" value="+">
+        <input type="number" id="s2" placeholder="Número 2" class="main-input">
+        
+        <button onclick="calcS()" class="btn-acao" style="background:#58a6ff; color:#000; margin-top:20px;">CALCULAR RESULTADO 🧮</button>
+        
+        <div id="resS" class="res-box">
+            </div>
+    </div>
+
+    <div id="pnlF" style="display:none;">
+        <div style="display:flex; justify-content:center; align-items:center; gap:10px; margin: 25px 0;">
+          <div style="display:flex; align-items:center; gap:5px;">
+             <input type="number" id="fi1" placeholder="Int" class="f-input-int">
+             <div style="display:flex; flex-direction:column; gap:5px;">
+                <input type="number" id="fn1" placeholder="N" class="f-input-num">
+                <div style="height:3px; background:#58a6ff;"></div>
+                <input type="number" id="fd1" placeholder="D" class="f-input-num">
+             </div>
+          </div>
+          <button onclick="mudarSinalF()" id="opF" class="btn-sinal-f">+</button>
+          <div style="display:flex; align-items:center; gap:5px;">
+             <input type="number" id="fi2" placeholder="Int" class="f-input-int">
+             <div style="display:flex; flex-direction:column; gap:5px;">
+                <input type="number" id="fn2" placeholder="N" class="f-input-num">
+                <div style="height:3px; background:#58a6ff;"></div>
