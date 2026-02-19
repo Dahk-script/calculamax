@@ -5,126 +5,140 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CalculaMax Pro 🚀</title>
     <style>
-        body { background:#0d1117; color:#c9d1d9; font-family: sans-serif; display:flex; justify-content:center; padding:20px; margin:0; }
-        .app { background:#161b22; width:100%; max-width:400px; border-radius:15px; padding:20px; border:1px solid #30363d; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .nav { display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-bottom:20px; }
-        .tab-btn { background:#21262d; color:#8b949e; border:1px solid #30363d; padding:10px; border-radius:8px; cursor:pointer; }
-        .tab-btn.active { background:#238636; color:white; border:none; }
-        .main-input { width:90%; background:#0d1117; border:1px solid #30363d; color:white; padding:12px; border-radius:8px; margin:10px 0; font-size:16px; }
-        .f-input-int { width:50px; height:50px; background:#0d1117; border:1px solid #30363d; color:white; text-align:center; border-radius:8px; }
-        .f-input-num { width:60px; height:35px; background:#0d1117; border:1px solid #30363d; color:white; text-align:center; border-radius:5px; }
-        .btn-sinal-f { background:#30363d; color:white; border:none; padding:10px 15px; border-radius:8px; font-weight:bold; cursor:pointer; }
-        .btn-acao { width:100%; background:#238636; color:white; border:none; padding:15px; border-radius:10px; font-weight:bold; margin-top:10px; cursor:pointer; }
-        .res-box { margin-top:15px; padding:15px; background:#0d1117; border-radius:8px; border-left:4px solid #58a6ff; min-height:30px; color:#58a6ff; font-weight:bold; }
+        body { background:#000; color:#fff; font-family: 'Segoe UI', sans-serif; display:flex; justify-content:center; margin:0; padding-top:20px; }
+        .app { background:#111; width:92%; max-width:400px; border-radius:25px; padding:20px; border:1px solid #333; box-shadow:0 20px 50px rgba(0,0,0,1); text-align:center; }
+        .tabs { display:grid; grid-template-columns: 1fr 1fr; gap:8px; margin-bottom:20px; }
+        .tab-btn { background:#222; color:#777; border:1px solid #333; padding:12px; border-radius:12px; cursor:pointer; font-weight:bold; transition: 0.3s; }
+        .tab-btn.active { background:#3498db; color:#fff; border-color:#3498db; }
+        .panel { display:none; padding:10px; }
+        .panel.active { display:block; animation: slideUp 0.4s ease; }
+        input { width:85%; background:#1a1a1a; border:1px solid #444; color:#fff; padding:15px; border-radius:12px; margin:10px 0; font-size:18px; text-align:center; }
+        .f-row { display:flex; justify-content:center; align-items:center; gap:10px; margin:20px 0; }
+        .f-input-int { width:60px; height:60px; font-size:20px; }
+        .f-input-num { width:70px; height:40px; font-size:16px; }
+        .op-btn { background:#222; color:#fff; border:1px solid #444; padding:15px; border-radius:10px; font-size:20px; cursor:pointer; width:22%; }
+        .btn-acao { width:95%; background:#2ecc71; color:#fff; border:none; padding:18px; border-radius:15px; font-weight:bold; font-size:16px; cursor:pointer; margin-top:15px; }
+        .res-box { margin-top:20px; padding:20px; background:#1a1a1a; border-radius:15px; border:1px solid #333; color:#2ecc71; font-size:20px; font-weight:bold; min-height:30px; }
+        @keyframes slideUp { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
     </style>
 </head>
 <body>
 
 <div class="app">
-    <h2 style="text-align:center;">CalculaMax Pro 🚀</h2>
+    <h2 style="color:#3498db; margin-bottom:25px;">CalculaMax Pro 🚀</h2>
     
-    <div class="nav">
-        <button class="tab-btn active" onclick="tabs('pnlF', event)">Frações</button>
-        <button class="tab-btn" onclick="tabs('pnlR', event)">Raiz</button>
-        <button class="tab-btn" onclick="tabs('pnlM', event)">MMC</button>
-        <button class="tab-btn" onclick="tabs('pnlS', event)">Simples</button>
+    <div class="tabs">
+        <button class="tab-btn active" onclick="showP(event, 'pnlS')">Simples</button>
+        <button class="tab-btn" onclick="showP(event, 'pnlF')">Frações</button>
+        <button class="tab-btn" onclick="showP(event, 'pnlR')">Raiz</button>
+        <button class="tab-btn" onclick="showP(event, 'pnlM')">MMC</button>
     </div>
 
-    <div id="pnlF">
-        <div style="display:flex; justify-content:center; align-items:center; gap:10px; margin: 25px 0;">
-          <div style="display:flex; align-items:center; gap:5px;">
-             <input type="number" id="fi1" placeholder="Int" class="f-input-int">
-             <div style="display:flex; flex-direction:column; gap:5px;">
+    <div id="pnlS" class="panel active">
+        <input type="number" id="s1" placeholder="Número 1">
+        <div style="display:flex; justify-content:space-between; margin:10px 5px;">
+            <button class="op-btn" onclick="calcS('+')">+</button>
+            <button class="op-btn" onclick="calcS('-')">-</button>
+            <button class="op-btn" onclick="calcS('*')">×</button>
+            <button class="op-btn" onclick="calcS('/')">÷</button>
+        </div>
+        <input type="number" id="s2" placeholder="Número 2">
+        <div id="resS" class="res-box">Aguardando...</div>
+    </div>
+
+    <div id="pnlF" class="panel">
+        <div class="f-row">
+            <input type="number" id="fi1" placeholder="Int" class="f-input-int" style="background:#222">
+            <div style="display:flex; flex-direction:column; gap:5px;">
                 <input type="number" id="fn1" placeholder="N" class="f-input-num">
-                <div style="height:3px; background:#58a6ff;"></div>
+                <div style="height:3px; background:#3498db;"></div>
                 <input type="number" id="fd1" placeholder="D" class="f-input-num">
-             </div>
-          </div>
-          <button onclick="mudarSinalF()" id="opF" class="btn-sinal-f">+</button>
-          <div style="display:flex; align-items:center; gap:5px;">
-             <input type="number" id="fi2" placeholder="Int" class="f-input-int">
-             <div style="display:flex; flex-direction:column; gap:5px;">
+            </div>
+            <button onclick="mudarS()" id="opF" style="background:#333; color:#fff; border:none; padding:10px; border-radius:8px; cursor:pointer;">+</button>
+            <div style="display:flex; flex-direction:column; gap:5px;">
                 <input type="number" id="fn2" placeholder="N" class="f-input-num">
-                <div style="height:3px; background:#58a6ff;"></div>
+                <div style="height:3px; background:#3498db;"></div>
                 <input type="number" id="fd2" placeholder="D" class="f-input-num">
-             </div>
-          </div>
+            </div>
         </div>
         <button onclick="calcF()" class="btn-acao">CALCULAR FRAÇÃO 📝</button>
-        <div id="resF" class="res-box"></div>
+        <div id="resF" class="res-box">Resultado...</div>
     </div>
 
-    <div id="pnlR" style="display:none;">
-        <div style="text-align:center; margin-bottom:20px;">
-            <span style="font-size:60px; color:#58a6ff; vertical-align:middle;">√</span>
-            <input type="number" id="rv" placeholder="Número" class="main-input" style="width:60%; display:inline-block; font-size:25px; text-align:center;">
+    <div id="pnlR" class="panel">
+        <div style="margin:30px 0;">
+            <span style="font-size:50px; color:#3498db; vertical-align:middle;">√</span>
+            <input type="number" id="rv" placeholder="Número" style="width:60%; display:inline-block; font-size:25px;">
         </div>
-        <button onclick="calcR()" class="btn-acao" style="background:#58a6ff; color:#000;">CALCULAR RAIZ QUADRADA</button>
-        <div id="resR" class="res-box"></div>
+        <button onclick="calcR()" class="btn-acao" style="background:#3498db">CALCULAR RAIZ</button>
+        <div id="resR" class="res-box">Resultado...</div>
     </div>
 
-    <div id="pnlM" style="display:none;">
-        <input type="text" id="mv" placeholder="Números (ex: 12, 18)" class="main-input">
-        <button onclick="calcMMC()" class="btn-acao">Calcular MMC</button>
-        <div id="resM" class="res-box" style="font-family: monospace;"></div>
+    <div id="pnlM" class="panel">
+        <input type="text" id="mv" placeholder="Ex: 12, 18, 24" style="font-size:16px;">
+        <button onclick="calcMMC()" class="btn-acao">CALCULAR MMC ⚡</button>
+        <div id="resM" class="res-box" style="font-family:monospace; font-size:16px;">Resultado...</div>
     </div>
 
-    <button onclick="limp()" style="width:100%; background:#700; color:white; border:none; padding:15px; border-radius:12px; margin-top:20px; font-weight:bold; cursor:pointer;">🧹 LIMPAR TUDO</button>
+    <button onclick="location.reload()" style="width:100%; background:none; color:#555; border:none; margin-top:20px; cursor:pointer;">🧹 Limpar Tela</button>
 </div>
 
 <script>
-    function tabs(id, e) {
-        ['pnlF','pnlR','pnlM'].forEach(p => document.getElementById(p).style.display = 'none');
-        document.getElementById(id).style.display = 'block';
+    function showP(e, id) {
+        document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
         e.currentTarget.classList.add('active');
     }
 
-    function mudarSinalF() {
-        let btn = document.getElementById('opF');
-        btn.innerText = btn.innerText === '+' ? '-' : '+';
+    function calcS(op) {
+        let n1 = parseFloat(document.getElementById('s1').value);
+        let n2 = parseFloat(document.getElementById('s2').value);
+        if(isNaN(n1) || isNaN(n2)) return;
+        let r = eval(`${n1}${op}${n2}`);
+        document.getElementById('resS').innerText = "Resultado: " + r;
+    }
+
+    function mudarS() {
+        let b = document.getElementById('opF');
+        b.innerText = b.innerText === '+' ? '-' : '+';
     }
 
     function calcF() {
-        // Lógica para transformar mista em imprópria e calcular
         let i1 = parseInt(document.getElementById('fi1').value || 0);
         let n1 = parseInt(document.getElementById('fn1').value || 0);
         let d1 = parseInt(document.getElementById('fd1').value || 1);
-        let num1 = (i1 * d1) + n1;
-
-        let i2 = parseInt(document.getElementById('fi2').value || 0);
         let n2 = parseInt(document.getElementById('fn2').value || 0);
         let d2 = parseInt(document.getElementById('fd2').value || 1);
-        let num2 = (i2 * d2) + n2;
-
-        let resN, resD;
+        
+        let num1 = (i1 * d1) + n1;
         let op = document.getElementById('opF').innerText;
+        let finalN, finalD;
 
         if(op === '+') {
-            resN = (num1 * d2) + (num2 * d1);
-            resD = d1 * d2;
+            finalN = (num1 * d2) + (n2 * d1);
+            finalD = d1 * d2;
         } else {
-            resN = (num1 * d2) - (num2 * d1);
-            resD = d1 * d2;
+            finalN = (num1 * d2) - (n2 * d1);
+            finalD = d1 * d2;
         }
-        document.getElementById('resF').innerText = `Resultado: ${resN}/${resD} (~${(resN/resD).toFixed(2)})`;
+
+        const mdc = (a, b) => b ? mdc(b, a % b) : a;
+        let div = Math.abs(mdc(finalN, finalD));
+        document.getElementById('resF').innerHTML = `Resultado: ${finalN/div}/${finalD/div} <br><small>Dec: ${(finalN/finalD).toFixed(2)}</small>`;
     }
 
     function calcR() {
         let v = document.getElementById('rv').value;
-        document.getElementById('resR').innerText = "√" + v + " = " + Math.sqrt(v).toFixed(4);
+        document.getElementById('resR').innerText = "Raiz: " + Math.sqrt(v).toFixed(3);
     }
 
     function calcMMC() {
-        let v = document.getElementById('mv').value.split(',').map(Number);
+        let v = document.getElementById('mv').value.split(',').map(Number).filter(n => !isNaN(n));
+        if(v.length < 2) return;
         const mdc = (a, b) => b ? mdc(b, a % b) : a;
         const mmc = (a, b) => (a * b) / mdc(a, b);
-        let res = v.reduce(mmc);
-        document.getElementById('resM').innerText = "MMC: " + res;
-    }
-
-    function limp() {
-        location.reload();
+        document.getElementById('resM').innerText = "MMC: " + v.reduce(mmc);
     }
 </script>
 
