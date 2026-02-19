@@ -3,42 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CalculaMax Pro</title>
+    <title>CalculaMax Pro 🚀</title>
     <style>
-        /* O CSS entra aqui para dar o visual bonito */
-        body { background-color: #121212; color: white; font-family: sans-serif; display: flex; justify-content: center; padding: 20px; }
-        .container { background: #1e1e1e; padding: 20px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); width: 100%; max-width: 350px; text-align: center; }
-        button { background: #3498db; color: white; border: none; padding: 10px; margin: 5px; border-radius: 5px; cursor: pointer; }
-        input { width: 80%; padding: 10px; margin: 10px 0; border-radius: 5px; border: 1px solid #333; background: #252525; color: white; }
+        body { background-color: #000; color: white; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; justify-content: center; align-items: flex-start; min-height: 100vh; margin: 0; padding-top: 20px; }
+        .app-container { background: #111; width: 90%; max-width: 400px; border-radius: 20px; padding: 20px; box-shadow: 0 0 20px rgba(52, 152, 219, 0.2); border: 1px solid #333; text-align: center; }
+        .tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; margin-bottom: 20px; }
+        .tab-btn { background: #222; color: #aaa; border: 1px solid #333; padding: 10px; cursor: pointer; border-radius: 8px; font-size: 12px; }
+        .tab-btn.active { background: #3498db; color: white; border-color: #3498db; }
+        .content { display: none; animation: fadeIn 0.3s; }
+        .content.active { display: block; }
+        input { width: 80%; padding: 12px; margin: 10px 0; border-radius: 10px; border: 1px solid #333; background: #222; color: white; text-align: center; font-size: 16px; }
+        .calc-btn { background: #2ecc71; color: white; border: none; padding: 15px 30px; border-radius: 10px; font-weight: bold; cursor: pointer; width: 85%; margin-top: 10px; }
+        #res { margin-top: 20px; padding: 15px; background: #222; border-radius: 10px; color: #2ecc71; font-size: 18px; font-weight: bold; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h2>CalculaMax Pro 🚀</h2>
-        <input type="number" id="n1" placeholder="Número 1">
-        <br>
-        <button onclick="calcular('+')">+</button>
-        <button onclick="calcular('-')">-</button>
-        <button onclick="calcular('*')">x</button>
-        <button onclick="calcular('/')">÷</button>
-        <br>
-        <input type="number" id="n2" placeholder="Número 2">
-        <br>
-        <h3 id="resultado">Resultado: -</h3>
+
+<div class="app-container">
+    <h2>CalculaMax Pro 🚀</h2>
+    
+    <div class="tabs">
+        <button class="tab-btn active" onclick="openTab('simples')">Simples</button>
+        <button class="tab-btn" onclick="openTab('fracao')">Frações</button>
+        <button class="tab-btn" onclick="openTab('raiz')">Raiz</button>
+        <button class="tab-btn" onclick="openTab('mmc')">MMC</button>
     </div>
 
-    <script>
-        /* O JS entra aqui para fazer a lógica */
-        function calcular(op) {
-            const n1 = parseFloat(document.getElementById('n1').value);
-            const n2 = parseFloat(document.getElementById('n2').value);
-            let res = 0;
-            if(op === '+') res = n1 + n2;
-            if(op === '-') res = n1 - n2;
-            if(op === '*') res = n1 * n2;
-            if(op === '/') res = n1 / n2;
-            document.getElementById('resultado').innerText = "Resultado: " + res;
-        }
-    </script>
+    <div id="simples" class="content active">
+        <input type="number" id="s1" placeholder="Número 1">
+        <input type="number" id="s2" placeholder="Número 2">
+        <button class="calc-btn" onclick="calcSimples()">Calcular Tudo</button>
+    </div>
+
+    <div id="fracao" class="content">
+        <input type="number" id="f1" placeholder="Numerador">
+        <p>_________</p>
+        <input type="number" id="f2" placeholder="Denominador">
+        <button class="calc-btn" onclick="calcFracao()">Ver Decimal</button>
+    </div>
+
+    <div id="raiz" class="content">
+        <input type="number" id="r1" placeholder="Número para Raiz">
+        <button class="calc-btn" onclick="calcRaiz()">Calcular Raiz</button>
+    </div>
+
+    <div id="mmc" class="content">
+        <input type="text" id="m1" placeholder="Ex: 10, 20, 30">
+        <button class="calc-btn" onclick="calcMMC()">Calcular MMC</button>
+    </div>
+
+    <div id="res">Resultado aparecerá aqui</div>
+</div>
+
+<script>
+    function openTab(tabName) {
+        document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById(tabName).classList.add('active');
+        event.currentTarget.classList.add('active');
+        document.getElementById('res').innerText = "Resultado aparecerá aqui";
+    }
+
+    function calcSimples() {
+        let n1 = parseFloat(document.getElementById('s1').value);
+        let n2 = parseFloat(document.getElementById('s2').value);
+        if(isNaN(n1) || isNaN(n2)) return alert("Digite os números!");
+        document.getElementById('res').innerHTML = `Soma: ${n1+n2}<br>Sub: ${n1-n2}<br>Mult: ${n1*n2}<br>Div: ${(n1/n2).toFixed(2)}`;
+    }
+
+    function calcFracao() {
+        let n1 = parseFloat(document.getElementById('f1').value);
+        let n2 = parseFloat(document.getElementById('f2').value);
+        document.getElementById('res').innerText = "Resultado: " + (n1/n2).toFixed(2);
+    }
+
+    function calcRaiz() {
+        let n1 = parseFloat(document.getElementById('r1').value);
+        document.getElementById('res').innerText = "Raiz Quadrada: " + Math.sqrt(n1).toFixed(2);
+    }
+
+    function calcMMC() {
+        document.getElementById('res').innerText = "Função MMC em processamento...";
+    }
+</script>
+
 </body>
 </html>
