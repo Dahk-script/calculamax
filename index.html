@@ -1,89 +1,33 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CalculaMax Pro 🚀</title>
-    <style>
-        body { background-color: #000; color: white; font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; margin: 0; padding-top: 20px; }
-        .app-card { background: #111; width: 90%; max-width: 380px; border-radius: 25px; padding: 20px; border: 1px solid #333; text-align: center; box-shadow: 0 15px 35px rgba(0,0,0,0.8); }
-        .nav-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 20px; }
-        .tab { background: #222; color: #888; border: 1px solid #333; padding: 10px; border-radius: 10px; cursor: pointer; font-size: 13px; transition: 0.3s; }
-        .tab.active { background: #3498db; color: white; border-color: #3498db; }
-        .panel { display: none; }
-        .panel.active { display: block; animation: fadeIn 0.4s; }
-        input { width: 85%; padding: 12px; margin: 8px 0; border-radius: 12px; border: 1px solid #444; background: #1a1a1a; color: white; text-align: center; font-size: 16px; }
-        .main-btn { background: #2ecc71; color: white; border: none; padding: 15px; border-radius: 12px; font-weight: bold; width: 92%; margin-top: 10px; cursor: pointer; font-size: 16px; }
-        #display-res { margin-top: 20px; padding: 20px; background: #1a1a1a; border-radius: 15px; color: #2ecc71; font-weight: bold; border: 1px dashed #333; min-height: 50px; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
-    </style>
-</head>
-<body>
-    <div class="app-card">
-        <h2 style="margin-bottom: 20px;">CalculaMax Pro 🚀</h2>
-        <div class="nav-tabs">
-            <div class="tab active" onclick="switchTab(event, 'tab-simples')">Simples</div>
-            <div class="tab" onclick="switchTab(event, 'tab-fracao')">Frações</div>
-            <div class="tab" onclick="switchTab(event, 'tab-raiz')">Raiz</div>
-            <div class="tab" onclick="switchTab(event, 'tab-mmc')">MMC</div>
-        </div>
+<div id="calculamax-app" style="font-family: 'Segoe UI', sans-serif; max-width: 400px; margin: auto; background: #000; padding: 20px; border-radius: 25px; border: 1px solid #333; color: white; box-shadow: 0 15px 50px rgba(0,0,0,0.9);">
+  
+  <h2 style="text-align: center; margin-bottom: 25px; letter-spacing: 1px;">CalculaMax Pro 🚀</h2>
 
-        <div id="tab-simples" class="panel active">
-            <input type="number" id="v1" placeholder="Número 1">
-            <input type="number" id="v2" placeholder="Número 2">
-            <button class="main-btn" onclick="doSimples()">CALCULAR RESULTADO 📊</button>
-        </div>
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 20px;">
+    <button onclick="aba('S', this)" id="btS" class="btn-menu active-neon">Simples</button>
+    <button onclick="aba('F', this)" id="btF" class="btn-menu">Frações</button>
+    <button onclick="aba('R', this)" id="btR" class="btn-menu">Raiz</button>
+    <button onclick="aba('M', this)" id="btM" class="btn-menu">MMC</button>
+  </div>
 
-        <div id="tab-fracao" class="panel">
-            <input type="number" id="num" placeholder="Numerador">
-            <div style="color:#555">──────────────</div>
-            <input type="number" id="den" placeholder="Denominador">
-            <button class="main-btn" onclick="doFracao()">CONVERTER ➗</button>
+  <div style="background: #111; padding: 20px; border-radius: 15px; border: 1px solid #222; min-height: 420px;">
+    
+    <div id="pnlS">
+        <input type="number" id="s1" placeholder="Número 1" class="main-input">
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 8px; margin: 20px 0;">
+            <button onclick="setOp(this, '+')" class="btn-op selected-op">+</button>
+            <button onclick="setOp(this, '-')" class="btn-op">-</button>
+            <button onclick="setOp(this, '×')" class="btn-op">×</button>
+            <button onclick="setOp(this, '÷')" class="btn-op">÷</button>
         </div>
-
-        <div id="tab-raiz" class="panel">
-            <input type="number" id="rz" placeholder="Número da Raiz">
-            <button class="main-btn" onclick="doRaiz()">EXTRAIR RAIZ 📐</button>
-        </div>
-
-        <div id="tab-mmc" class="panel">
-            <input type="text" id="mmc-in" placeholder="Ex: 12, 18, 24">
-            <button class="main-btn" onclick="doMMC()">ACHAR MMC ⚡</button>
-        </div>
-
-        <div id="display-res">O resultado aparecerá aqui...</div>
+        <input type="hidden" id="opS" value="+">
+        <input type="number" id="s2" placeholder="Número 2" class="main-input">
+        
+        <button onclick="calcS()" class="btn-acao" style="background:#58a6ff; color:#000; margin-top:20px;">CALCULAR RESULTADO 🧮</button>
+        
+        <div id="resS" class="res-box">
+            </div>
     </div>
 
-    <script>
-        function switchTab(e, id) {
-            document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-            e.currentTarget.classList.add('active');
-            document.getElementById('display-res').innerText = "O resultado aparecerá aqui...";
-        }
-
-        function doSimples() {
-            let a = parseFloat(document.getElementById('v1').value);
-            let b = parseFloat(document.getElementById('v2').value);
-            if(isNaN(a) || isNaN(b)) return;
-            document.getElementById('display-res').innerHTML = `Soma: ${a+b} | Sub: ${a-b}<br>Mult: ${a*b} | Div: ${(a/b).toFixed(2)}`;
-        }
-
-        function doFracao() {
-            let n = parseFloat(document.getElementById('num').value);
-            let d = parseFloat(document.getElementById('den').value);
-            document.getElementById('display-res').innerText = `Decimal: ${(n/d).toFixed(4)}`;
-        }
-
-        function doRaiz() {
-            let v = parseFloat(document.getElementById('rz').value);
-            document.getElementById('display-res').innerText = `Raiz Quadrada: ${Math.sqrt(v).toFixed(2)}`;
-        }
-
-        function doMMC() {
-            document.getElementById('display-res').innerText = "Lógica do MMC sendo ativada...";
-        }
-    </script>
-</body>
-</html>
+    <div id="pnlF" style="display:none;">
+        <div style="display:flex; justify-content:center; align-items:center; gap:10px; margin: 25px 0;">
+          <div style="display:flex; align-items:center; gap:5px;">
